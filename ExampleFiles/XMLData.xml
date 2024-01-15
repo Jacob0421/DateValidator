@@ -1,0 +1,4 @@
+<Config>
+    <GracePeriod>31Days</GracePeriod>
+    <ExpiryDate>2023-12-31</ExpiryDate>
+</Config>

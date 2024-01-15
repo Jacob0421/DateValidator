@@ -1,0 +1,29 @@
+<Config>
+    <ConfigurationItems>
+        <SendIfGood></SendIfGood>
+        <AlertingPeriod>2</AlertingPeriod>
+        <NotificationServices>
+            <DBMail>
+                <Subject></Subject>
+                <Recipients></Recipients>
+            </DBMail></NotificationServices>
+    </ConfigurationItems>
+    <!--Optional Fields: Description-->
+    <Files>
+        <File>
+            <Directory>C:\Powershell_Scripts\DateValidator\ExampleFiles</Directory>
+            <Name>XMLData.xml</Name>
+            <Description>Example Data in basic XML configuration file format.</Description>
+        </File>
+        <File>
+            <Directory>C:\Powershell_Scripts\DateValidator\ExampleFiles</Directory>
+            <Name>JSONData.json</Name>
+            <Description>Example data in JSON Format</Description>
+        </File>
+        <File>
+            <Directory>C:\Powershell_Scripts\DateValidator\ExampleFiles</Directory>
+            <Name>TxtData.txt</Name>
+            <Description>Example data in basic .txt format</Description>
+        </File>
+    </Files>
+</Config>
