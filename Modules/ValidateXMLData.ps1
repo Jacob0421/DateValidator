@@ -12,18 +12,7 @@ Function ValidateXMLFile ($Path, $AlertingPeriod) {
     $GracePeriod = [int] (($ConfigXML.Config.GracePeriod) -replace "[^0-9]", "")
     $ExpiryWithGrace = $ExpiryRaw.AddDays($GracePeriod)
 
-    if (((Get-Date) -gt $ExpiryRaw) -and ((Get-Date) -lt $ExpiryWithGrace)) {
-        $Status = "On Grace Period"
-    }
-    elseif ((Get-Date) -gt $ExpiryRaw) {
-        $Status = "Expired"
-    }
-    elseif ((GetDate).AddMonths($AlertingPeriod) -gt $ExpiryRaw) {
-        $Status = "Nearing Expiry"
-    }
-    else {
-        $Status = "Good"
-    }
+    $Status = Get-Status -ExpiryRaw $RawExpiry -GracePeriod $GracePeriod -ExpiryWithGrace $ExpiryWithGrace
 
     $Output = [PSCustomObject]@{
         Status                = $Status

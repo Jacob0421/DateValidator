@@ -6,7 +6,7 @@
 Remove-Variable -Scope local -Name "*Error*", "*Valid*" -ErrorAction SilentlyContinue
 
 $ConfigLocation = "$PSScriptRoot\Config\DateValidatorConfig.xml"
-$ValidExtensions = "xml|txt|json"
+$ValidExtensions = ".xml", ".json", ".txt"
 
 if (-not (Test-Path $ConfigLocation)) {
     Throw "Config Location Not found.`nPath Provided: $ConfigLocation"
@@ -28,14 +28,14 @@ $Config.Config.Files.File | Select-Object Directory, Name, Description | ForEach
         $FileDirectory += "\"
     }
 
-    $FileExtension = $FileName.Split(".")[1]
+    $FileExtension = [System.IO.Path]::GetExtension($FileName)
 
     if (-not ($FileExtension)) {
         $ErrorOutput += "File Name ($FileName) does not contain a file extension. Please Check config and correct.`n"
         return
     }
-    if ($ValidExtensions -notlike "*$FileExtension*") {
-        $ErrorOutput += "Extension provided for filename '$FileName' is not a valid extension. Valid extensions are: $ValidExtensions`n"
+    if (-not ($ValidExtensions -contains $FileExtension)) {
+        $ErrorOutput += "Extension provided for filename '$FileName' is not a valid extension. Valid extensions are: $(($ValidExtensions -join " | "))`n"
         return
     }
     ##############################
@@ -48,14 +48,15 @@ $Config.Config.Files.File | Select-Object Directory, Name, Description | ForEach
     }
 
     switch ($FileExtension) {
-        'json' { $ValidationResult = ValidateJSONFile -Path $FilePath -AlertingPeriod $AlertingPeriod }
-        'txt' { $ValidationResult = ValidateTxtFile -Path $FilePath -AlertingPeriod $AlertingPeriod }
-        'xml' { $ValidationResult = ValidateXMLFile -Path $FilePath -AlertingPeriod $AlertingPeriod }
+        '.json' { $ValidationResult = ValidateJSONFile -Path $FilePath -AlertingPeriod $AlertingPeriod }
+        '.txt' { $ValidationResult = ValidateTxtFile -Path $FilePath -AlertingPeriod $AlertingPeriod }
+        '.xml' { $ValidationResult = ValidateXMLFile -Path $FilePath -AlertingPeriod $AlertingPeriod }
         Default {}
     }
 
+    Write-Host $ValidationResult
 
-    Remove-Variable -Scope local -Name "*File*", "Description", "*Valid*" -ErrorAction SilentlyContinue
+    Remove-Variable -Scope local -Name "*File*", "Description" -ErrorAction SilentlyContinue
 }
 
 
