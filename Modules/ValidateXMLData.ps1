@@ -1,3 +1,5 @@
+."$PSScriptRoot\Get-Status.ps1"
+
 Function ValidateXMLFile ($Path, $AlertingPeriod) {
 
     $FileStream = New-Object System.IO.FileStream $Path, 'Open', 'Read', 'ReadWrite'
